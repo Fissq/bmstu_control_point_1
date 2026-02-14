@@ -9,133 +9,138 @@ extern "C" {
 
 // ============== ПРОСТЫЕ ЗАДАНИЯ (15 заданий, 0.5-1.5 балла) ==============
 
-/* Задание 1: Вычислить длину строки (0.5 балла)
- * Реализуйте аналог strlen
- * Пример: stringLength("hello") -> 5
+/* Задание 1: Сумма элементов массива (0.5 балла)
+ * Пример: arraySum([1,2,3,4,5], 5) -> 15
  */
-size_t stringLength(const char *str);
+int arraySum(const int *arr, int size);
 
-/* Задание 2: Скопировать строку (0.5 балла)
- * Реализуйте аналог strcpy
- * Пример: stringCopy(dest, "hello") -> dest содержит "hello"
+/* Задание 2: Максимальный элемент массива (0.5 балла)
+ * Пример: arrayMax([3,1,4,1,5], 5) -> 5
  */
-void stringCopy(char *dest, const char *src);
+int arrayMax(const int *arr, int size);
 
-/* Задание 3: Конкатенация строк (0.5 балла)
- * Реализуйте аналог strcat - добавить src в конец dest
- * Пример: dest="Hello", src=" World" -> dest="Hello World"
+/* Задание 3: Минимальный элемент массива (0.5 балла)
+ * Пример: arrayMin([3,1,4,1,5], 5) -> 1
  */
-void stringConcat(char *dest, const char *src);
+int arrayMin(const int *arr, int size);
 
-/* Задание 4: Сравнение строк (0.5 балла)
- * Реализуйте аналог strcmp
- * Возвращает: 0 если равны, <0 если str1<str2, >0 если str1>str2
+/* Задание 4: Разворот массива на месте (0.5 балла)
+ * Пример: arrayReverse([1,2,3,4,5], 5) -> [5,4,3,2,1]
  */
-int stringCompare(const char *str1, const char *str2);
+void arrayReverse(int *arr, int size);
 
-/* Задание 5: Подсчитать количество вхождений символа (0.5 балла)
- * Пример: countChar("hello", 'l') -> 2
+/* Задание 5: Подсчитать чётные числа в массиве (0.5 балла)
+ * Пример: countEven([1,2,3,4,6], 5) -> 3
  */
-int countChar(const char *str, char ch);
+int countEven(const int *arr, int size);
 
-/* Задание 6: Подсчитать количество гласных букв (0.5 балла)
- * Гласные: a, e, i, o, u (регистр не важен)
- * Пример: countVowels("Hello World") -> 3
- */
-int countVowels(const char *str);
-
-/* Задание 7: Удалить все пробелы из строки (0.5 балла)
- * Пример: removeSpaces("a b c") -> result="abc"
- */
-void removeSpaces(const char *str, char *result);
-
-/* Задание 8: Найти длину первого слова (0.5 балла)
- * Слово - последовательность непробельных символов
- * Пример: firstWordLength("  hello world") -> 5
- */
-int firstWordLength(const char *str);
-
-/* Задание 9: Найти подстроку в строке (0.5 балла)
+/* Задание 6: Поиск элемента в массиве (0.5 балла)
  * Возвращает индекс первого вхождения или -1
- * Пример: findSubstring("hello world", "wor") -> 6
+ * Пример: arrayFind([10,20,30], 3, 20) -> 1
  */
-int findSubstring(const char *str, const char *substr);
+int arrayFind(const int *arr, int size, int value);
 
-/* Задание 10: Заменить все вхождения символа (0.5 балла)
- * Пример: replaceChar("hello", 'l', 'p') -> result="heppo"
+/* Задание 7: Копирование массива (0.5 балла)
+ * Скопировать size элементов из src в dest
+ * Пример: arrayCopy(dest, [1,2,3], 3) -> dest = [1,2,3]
  */
-void replaceChar(const char *str, char oldChar, char newChar, char *result);
+void arrayCopy(int *dest, const int *src, int size);
 
-/* Задание 11: Удалить начальные и конечные пробелы (trim) (0.5 балла)
- * Пример: trimString("  hello  ") -> result="hello"
+/* Задание 8: Сортировка пузырьком (0.5 балла)
+ * Отсортировать массив по возрастанию
+ * Пример: bubbleSort([5,3,1,4,2], 5) -> [1,2,3,4,5]
  */
-void trimString(const char *str, char *result);
+void bubbleSort(int *arr, int size);
 
-/* Задание 12: Перевернуть слова в строке (1 балл)
- * Слова остаются на своих местах, но символы внутри каждого слова
- * переворачиваются Пример: reverseWords("hello world") -> "olleh dlrow"
+/* Задание 9: Циклический сдвиг влево на k позиций (0.5 балла)
+ * Пример: rotateLeft([1,2,3,4,5], 5, 2) -> [3,4,5,1,2]
  */
-void reverseWords(const char *str, char *result);
+void rotateLeft(int *arr, int size, int k);
 
-/* Задание 13: Палиндром без учета регистра и пробелов (1 балл)
- * Пример: isPalindromeIgnoreCase("A man a Plan") -> true
+/* Задание 10: Слияние двух отсортированных массивов (0.5 балла)
+ * Результат записывается в result (память уже выделена вызывающим)
+ * Пример: mergeSorted([1,3,5], 3, [2,4,6], 3, result) -> [1,2,3,4,5,6]
  */
-bool isPalindromeIgnoreCase(const char *str);
+void mergeSorted(const int *a, int sizeA, const int *b, int sizeB, int *result);
 
-/* Задание 14: Подсчитать количество слов в строке (1 балл)
- * Слова разделяются пробелами, табами, переносами строк
- * Пример: countWords("  hello   world  ") -> 2
+/* Задание 11: Удалить дубликаты из отсортированного массива (0.5 балла)
+ * Модифицирует массив на месте, возвращает новый размер
+ * Пример: removeDuplicates([1,1,2,3,3], 5) -> arr=[1,2,3,...], return 3
  */
-int countWords(const char *str);
+int removeDuplicates(int *arr, int size);
 
-/* Задание 15: Проверка на анаграммы (1.5 балла)
- * Две строки являются анаграммами, если содержат одинаковые буквы
- * Регистр не учитывается, пробелы игнорируются
- * Пример: isAnagram("listen", "silent") -> true
+/* Задание 12: Второй по величине элемент (1 балл)
+ * Если все элементы одинаковые, вернуть этот элемент
+ * Пример: secondLargest([3,1,4,1,5,9], 6) -> 5
  */
-bool isAnagram(const char *str1, const char *str2);
+int secondLargest(const int *arr, int size);
+
+/* Задание 13: Проверить, отсортирован ли массив по неубыванию (1 балл)
+ * Пример: isSorted([1,2,3,4,5], 5) -> true
+ *         isSorted([1,3,2,4,5], 5) -> false
+ */
+bool isSorted(const int *arr, int size);
+
+/* Задание 14: Частота самого частого элемента (1 балл)
+ * Вернуть количество вхождений самого частого элемента
+ * Пример: maxFrequency([1,3,2,3,3,1], 6) -> 3  (элемент 3 встречается 3 раза)
+ */
+int maxFrequency(const int *arr, int size);
+
+/* Задание 15: Найти два элемента с заданной суммой (1.5 балла)
+ * Вернуть динамически выделенный массив из двух индексов (malloc)
+ * Если пара не найдена, вернуть NULL
+ * Вызывающий отвечает за освобождение памяти (free)
+ * Пример: twoSum([2,7,11,15], 4, 9) -> [0,1]  (arr[0]+arr[1]=9)
+ */
+int *twoSum(const int *arr, int size, int target);
 
 // ============== СЛОЖНЫЕ ЗАДАНИЯ (5 заданий, 3-5 баллов) ==============
 
-/* Задание 16: Найти самый длинный общий префикс (3 балла)
- * Использует variadic arguments, завершается NULL
- * Пример: longestCommonPrefix("flower", "flow", "flight", NULL) -> "fl"
+/* Задание 16: Фильтрация положительных элементов (3 балла)
+ * Создать новый массив (malloc), содержащий только положительные элементы
+ * Записать размер результата в *resultSize
+ * Если положительных нет, вернуть NULL и *resultSize = 0
+ * Пример: filterPositive([-1,2,-3,4,5], 5, &sz) -> [2,4,5], sz=3
  */
-void longestCommonPrefix(char *result, const char *first, ...);
+int *filterPositive(const int *arr, int size, int *resultSize);
 
-/* Задание 17: RLE-сжатие строки (3 балла)
- * Run-Length Encoding: заменить повторяющиеся символы на "символ+количество"
- * Пример: compressString("aaabbcccc") -> "a3b2c4"
- * Если символ встречается 1 раз, просто выводим символ: "abc" -> "abc"
+/* Задание 17: Транспонирование матрицы (3 балла)
+ * Матрица хранится в одномерном массиве построчно (row-major order)
+ * Вернуть новую транспонированную матрицу (malloc)
+ * Пример: matrix=[1,2,3,4,5,6], rows=2, cols=3
+ *         результат=[1,4,2,5,3,6] (3 строки, 2 столбца)
  */
-void compressString(const char *str, char *result);
+int *matrixTranspose(const int *matrix, int rows, int cols);
 
-/* Задание 18: Простой калькулятор (4 балла)
- * Вычислить значение выражения с операциями +, -, *, /
- * Выражение в инфиксной нотации, может содержать скобки
- * Пример: calculateExpression("2 + 3 * 4") -> 14
- *         calculateExpression("(2 + 3) * 4") -> 20
+/* Задание 18: Обход матрицы по спирали (4 балла)
+ * Матрица хранится построчно. Вернуть элементы в порядке спирального обхода
+ * (по часовой стрелке, начиная с верхнего левого угла)
+ * Вернуть динамически выделенный массив (malloc), записать размер в *resultSize
+ * Пример: matrix=[1,2,3, 4,5,6, 7,8,9], rows=3, cols=3
+ *         результат=[1,2,3,6,9,8,7,4,5]
  */
-int calculateExpression(const char *expression);
+int *spiralOrder(const int *matrix, int rows, int cols, int *resultSize);
 
-/* Задание 19: Валидация email адреса (5 баллов)
- * Проверить, что строка является корректным email
- * Правила:
- *   - есть ровно один символ @
- *   - до @ минимум 1 символ (буквы, цифры, точка, дефис, подчеркивание)
- *   - после @ есть домен с точкой
- *   - доменная зона минимум 2 символа
- * Пример: validateEmail("user@example.com") -> true
- *         validateEmail("invalid.email") -> false
+/* Задание 19: Разбиение строки по разделителю (5 баллов)
+ * Разбить строку на подстроки по заданному символу-разделителю
+ * Вернуть массив строк (каждая выделена через malloc)
+ * Сам массив указателей тоже выделен через malloc
+ * Записать количество подстрок в *count
+ * Пример: stringSplit("hello,world,test", ',', &count)
+ *         -> ["hello","world","test"], count=3
  */
-bool validateEmail(const char *email);
+char **stringSplit(const char *str, char delimiter, int *count);
 
-/* Задание 20: Найти самую длинную палиндромную подстроку (5 баллов)
- * Вернуть длину самой длинной палиндромной подстроки
- * Пример: longestPalindromicSubstring("babad") -> 3 ("bab" или "aba")
- *         longestPalindromicSubstring("cbbd") -> 2 ("bb")
+/* Задание 20: Умножение полиномов (5 баллов)
+ * Полиномы представлены массивами коэффициентов: a[i] = коэффициент при x^i
+ * Вернуть новый массив (malloc) — результат умножения
+ * Размер результата: sizeA + sizeB - 1, записать в *resultSize
+ * Пример: a=[1,2], b=[3,4] -> [3,10,8]
+ *   (1+2x)*(3+4x) = 3 + 10x + 8x^2
  */
-int longestPalindromicSubstring(const char *str);
+int *polynomialMultiply(const int *a, int sizeA, const int *b, int sizeB,
+                        int *resultSize);
 
 #ifdef __cplusplus
 }

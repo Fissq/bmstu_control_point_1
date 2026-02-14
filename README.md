@@ -1,4 +1,4 @@
-# Проект для проверочных работ студентов (C)
+# Проект для проверочных работ студентов (C) — Вариант 2
 
 ## Структура проекта
 - `student_lib/` - статическая библиотека на C с заданиями
@@ -57,35 +57,35 @@ ctest --output-on-failure
 
 Реализуйте функции в файле `student_lib/student_tasks.c`. Все объявления находятся в `student_lib/student_tasks.h`.
 
-**Важно:** Библиотека написана на чистом C (стандарт C11).
+**Важно:** Библиотека написана на чистом C (стандарт C11). Для динамического выделения памяти используйте `malloc` / `free` из `<stdlib.h>`.
 
 ## Задания
 
-### Простые задания (постепенное усложнение)
+### Простые задания (массивы и базовые алгоритмы)
 
-1. `size_t stringLength(const char* str)` - вычислить длину строки (аналог strlen) (0.5 балла)
-2. `void stringCopy(char* dest, const char* src)` - скопировать строку (аналог strcpy) (0.5 балла)
-3. `void stringConcat(char* dest, const char* src)` - конкатенация строк (аналог strcat) (0.5 балла)
-4. `int stringCompare(const char* str1, const char* str2)` - сравнение строк (аналог strcmp) (0.5 балла)
-5. `int countChar(const char* str, char ch)` - подсчет вхождений символа (0.5 балла)
-6. `int countVowels(const char* str)` - подсчет гласных букв (a,e,i,o,u) (0.5 балла)
-7. `void removeSpaces(const char* str, char* result)` - удаление всех пробелов (0.5 балла)
-8. `int firstWordLength(const char* str)` - длина первого слова (0.5 балла)
-9. `int findSubstring(const char* str, const char* substr)` - поиск подстроки (0.5 балла)
-10. `void replaceChar(const char* str, char oldChar, char newChar, char* result)` - замена символа (0.5 балла)
-11. `void trimString(const char* str, char* result)` - удаление начальных и конечных пробелов (0.5 балла)
-12. `void reverseWords(const char* str, char* result)` - переворот символов в каждом слове (1 балл)
-13. `bool isPalindromeIgnoreCase(const char* str)` - палиндром (игнорируя регистр и пробелы) (1 балл)
-14. `int countWords(const char* str)` - подсчет количества слов (1 балл)
-15. `bool isAnagram(const char* str1, const char* str2)` - проверка на анаграммы (1.5 балла)
+1. `int arraySum(const int *arr, int size)` - сумма элементов массива (0.5 балла)
+2. `int arrayMax(const int *arr, int size)` - максимальный элемент массива (0.5 балла)
+3. `int arrayMin(const int *arr, int size)` - минимальный элемент массива (0.5 балла)
+4. `void arrayReverse(int *arr, int size)` - разворот массива на месте (0.5 балла)
+5. `int countEven(const int *arr, int size)` - подсчёт чётных чисел (0.5 балла)
+6. `int arrayFind(const int *arr, int size, int value)` - поиск элемента в массиве (0.5 балла)
+7. `void arrayCopy(int *dest, const int *src, int size)` - копирование массива (0.5 балла)
+8. `void bubbleSort(int *arr, int size)` - сортировка пузырьком (0.5 балла)
+9. `void rotateLeft(int *arr, int size, int k)` - циклический сдвиг влево на k позиций (0.5 балла)
+10. `void mergeSorted(const int *a, int sizeA, const int *b, int sizeB, int *result)` - слияние двух отсортированных массивов (0.5 балла)
+11. `int removeDuplicates(int *arr, int size)` - удаление дубликатов из отсортированного массива (0.5 балла)
+12. `int secondLargest(const int *arr, int size)` - второй по величине элемент (1 балл)
+13. `bool isSorted(const int *arr, int size)` - проверка отсортированности по неубыванию (1 балл)
+14. `int maxFrequency(const int *arr, int size)` - частота самого частого элемента (1 балл)
+15. `int* twoSum(const int *arr, int size, int target)` - два элемента с заданной суммой, возврат через malloc (1.5 балла)
 
-### Сложные задания
+### Сложные задания (динамическая память и матрицы)
 
-16. `void longestCommonPrefix(char* result, const char* first, ...)` - самый длинный общий префикс (variadic, 3 балла)
-17. `void compressString(const char* str, char* result)` - RLE-сжатие строки (3 балла)
-18. `int calculateExpression(const char* expression)` - простой калькулятор с приоритетом операций и скобками (4 балла)
-19. `bool validateEmail(const char* email)` - валидация email адреса (5 баллов)
-20. `int longestPalindromicSubstring(const char* str)` - самая длинная палиндромная подстрока (5 баллов)
+16. `int* filterPositive(const int *arr, int size, int *resultSize)` - фильтрация положительных элементов, результат через malloc (3 балла)
+17. `int* matrixTranspose(const int *matrix, int rows, int cols)` - транспонирование матрицы, результат через malloc (3 балла)
+18. `int* spiralOrder(const int *matrix, int rows, int cols, int *resultSize)` - спиральный обход матрицы, результат через malloc (4 балла)
+19. `char** stringSplit(const char *str, char delimiter, int *count)` - разбиение строки по разделителю, все строки и массив через malloc (5 баллов)
+20. `int* polynomialMultiply(const int *a, int sizeA, const int *b, int sizeB, int *resultSize)` - умножение полиномов, результат через malloc (5 баллов)
 
 ## Для преподавателей
 

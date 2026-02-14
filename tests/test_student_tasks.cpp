@@ -1,3 +1,4 @@
+#include <cstdlib>
 #include <cstring>
 #include <gtest/gtest.h>
 
@@ -5,515 +6,609 @@ extern "C" {
 #include "student_tasks.h"
 }
 
-// ========== Задание 1: Длина строки (0.5 балла) ==========
-TEST(Task01_StringLength, EmptyString) { EXPECT_EQ(stringLength(""), 0); }
-
-TEST(Task01_StringLength, SingleChar) { EXPECT_EQ(stringLength("a"), 1); }
-
-TEST(Task01_StringLength, NormalStrings) {
-  EXPECT_EQ(stringLength("hello"), 5);
-  EXPECT_EQ(stringLength("world"), 5);
-  EXPECT_EQ(stringLength("test"), 4);
-  EXPECT_EQ(stringLength("programming"), 11);
-}
-
-// ========== Задание 2: Копирование строки (0.5 балла) ==========
-TEST(Task02_StringCopy, EmptyString) {
-  char dest[100];
-  stringCopy(dest, "");
-  EXPECT_STREQ(dest, "");
-}
-
-TEST(Task02_StringCopy, SingleChar) {
-  char dest[100];
-  stringCopy(dest, "a");
-  EXPECT_STREQ(dest, "a");
-}
-
-TEST(Task02_StringCopy, NormalStrings) {
-  char dest[100];
-  stringCopy(dest, "hello");
-  EXPECT_STREQ(dest, "hello");
-
-  stringCopy(dest, "world");
-  EXPECT_STREQ(dest, "world");
-
-  stringCopy(dest, "test123");
-  EXPECT_STREQ(dest, "test123");
-}
-
-// ========== Задание 3: Конкатенация строк (0.5 балла) ==========
-TEST(Task03_StringConcat, EmptyStrings) {
-  char dest[100] = "";
-  stringConcat(dest, "");
-  EXPECT_STREQ(dest, "");
-}
-
-TEST(Task03_StringConcat, AddToEmpty) {
-  char dest[100] = "";
-  stringConcat(dest, "hello");
-  EXPECT_STREQ(dest, "hello");
-}
-
-TEST(Task03_StringConcat, NormalConcat) {
-  char dest[100] = "Hello";
-  stringConcat(dest, " World");
-  EXPECT_STREQ(dest, "Hello World");
-
-  char dest2[100] = "test";
-  stringConcat(dest2, "123");
-  EXPECT_STREQ(dest2, "test123");
-}
-
-// ========== Задание 4: Сравнение строк (0.5 балла) ==========
-TEST(Task04_StringCompare, EqualStrings) {
-  EXPECT_EQ(stringCompare("hello", "hello"), 0);
-  EXPECT_EQ(stringCompare("", ""), 0);
-  EXPECT_EQ(stringCompare("test", "test"), 0);
-}
-
-TEST(Task04_StringCompare, DifferentStrings) {
-  EXPECT_LT(stringCompare("abc", "abd"), 0);
-  EXPECT_GT(stringCompare("abd", "abc"), 0);
-  EXPECT_LT(stringCompare("hello", "world"), 0);
-  EXPECT_GT(stringCompare("world", "hello"), 0);
-}
-
-TEST(Task04_StringCompare, DifferentLengths) {
-  EXPECT_LT(stringCompare("abc", "abcd"), 0);
-  EXPECT_GT(stringCompare("abcd", "abc"), 0);
-}
-
-// ========== Задание 5: Подсчет символа (0.5 балла) ==========
-TEST(Task05_CountChar, NoOccurrences) {
-  EXPECT_EQ(countChar("hello", 'x'), 0);
-  EXPECT_EQ(countChar("", 'a'), 0);
-}
-
-TEST(Task05_CountChar, SingleOccurrence) {
-  EXPECT_EQ(countChar("hello", 'h'), 1);
-  EXPECT_EQ(countChar("world", 'w'), 1);
-}
-
-TEST(Task05_CountChar, MultipleOccurrences) {
-  EXPECT_EQ(countChar("hello", 'l'), 2);
-  EXPECT_EQ(countChar("banana", 'a'), 3);
-  EXPECT_EQ(countChar("mississippi", 's'), 4);
-}
-
-// ========== Задание 6: Подсчет гласных (0.5 балла) ==========
-TEST(Task06_CountVowels, NoVowels) {
-  EXPECT_EQ(countVowels("bcdfg"), 0);
-  EXPECT_EQ(countVowels("xyz"), 0);
-  EXPECT_EQ(countVowels(""), 0);
-}
-
-TEST(Task06_CountVowels, OnlyVowels) {
-  EXPECT_EQ(countVowels("aeiou"), 5);
-  EXPECT_EQ(countVowels("AEIOU"), 5);
-}
-
-TEST(Task06_CountVowels, MixedStrings) {
-  EXPECT_EQ(countVowels("hello"), 2); // e, o
-  EXPECT_EQ(countVowels("Hello World"), 3); // e, o, o
-  EXPECT_EQ(countVowels("Programming"), 3); // o, a, i
-}
-
-// ========== Задание 7: Удаление пробелов (0.5 балла) ==========
-TEST(Task07_RemoveSpaces, NoSpaces) {
-  char result[100];
-  removeSpaces("hello", result);
-  EXPECT_STREQ(result, "hello");
-}
-
-TEST(Task07_RemoveSpaces, OnlySpaces) {
-  char result[100];
-  removeSpaces("   ", result);
-  EXPECT_STREQ(result, "");
-}
-
-TEST(Task07_RemoveSpaces, WithSpaces) {
-  char result[100];
-  removeSpaces("a b c", result);
-  EXPECT_STREQ(result, "abc");
-
-  removeSpaces("  hello  world  ", result);
-  EXPECT_STREQ(result, "helloworld");
-}
-
-// ========== Задание 8: Длина первого слова (0.5 балла) ==========
-TEST(Task08_FirstWordLength, NoLeadingSpaces) {
-  EXPECT_EQ(firstWordLength("hello world"), 5);
-  EXPECT_EQ(firstWordLength("test"), 4);
-}
-
-TEST(Task08_FirstWordLength, WithLeadingSpaces) {
-  EXPECT_EQ(firstWordLength("  hello world"), 5);
-  EXPECT_EQ(firstWordLength("   test"), 4);
-}
-
-TEST(Task08_FirstWordLength, SingleWord) {
-  EXPECT_EQ(firstWordLength("hello"), 5);
-  EXPECT_EQ(firstWordLength("  word"), 4);
-}
-
-TEST(Task08_FirstWordLength, EmptyOrSpacesOnly) {
-  EXPECT_EQ(firstWordLength(""), 0);
-  EXPECT_EQ(firstWordLength("   "), 0);
-}
-
-// ========== Задание 9: Поиск подстроки (0.5 балла) ==========
-TEST(Task09_FindSubstring, AtBeginning) {
-  EXPECT_EQ(findSubstring("hello world", "hello"), 0);
-}
-
-TEST(Task09_FindSubstring, InMiddle) {
-  EXPECT_EQ(findSubstring("hello world", "wor"), 6);
-  EXPECT_EQ(findSubstring("abcdefgh", "def"), 3);
-}
-
-TEST(Task09_FindSubstring, NotFound) {
-  EXPECT_EQ(findSubstring("hello world", "xyz"), -1);
-  EXPECT_EQ(findSubstring("test", "testing"), -1);
-}
-
-TEST(Task09_FindSubstring, EmptySubstring) {
-  EXPECT_EQ(findSubstring("hello", ""), 0);
-}
-
-// ========== Задание 10: Замена символа (0.5 балла) ==========
-TEST(Task10_ReplaceChar, NoOccurrences) {
-  char result[100];
-  replaceChar("hello", 'x', 'y', result);
-  EXPECT_STREQ(result, "hello");
+// ========== Задание 1: Сумма массива (0.5 балла) ==========
+TEST(Task01_ArraySum, SingleElement) {
+  int arr[] = {42};
+  EXPECT_EQ(arraySum(arr, 1), 42);
 }
 
-TEST(Task10_ReplaceChar, SingleOccurrence) {
-  char result[100];
-  replaceChar("hello", 'h', 'H', result);
-  EXPECT_STREQ(result, "Hello");
+TEST(Task01_ArraySum, MultiplePositive) {
+  int arr[] = {1, 2, 3, 4, 5};
+  EXPECT_EQ(arraySum(arr, 5), 15);
 }
 
-TEST(Task10_ReplaceChar, MultipleOccurrences) {
-  char result[100];
-  replaceChar("hello", 'l', 'p', result);
-  EXPECT_STREQ(result, "heppo");
+TEST(Task01_ArraySum, WithNegatives) {
+  int arr[] = {-1, -2, -3};
+  EXPECT_EQ(arraySum(arr, 3), -6);
 
-  replaceChar("banana", 'a', 'o', result);
-  EXPECT_STREQ(result, "bonono");
+  int arr2[] = {10, -10, 20, -20};
+  EXPECT_EQ(arraySum(arr2, 4), 0);
 }
 
-// ========== Задание 11: Trim строки (0.5 балла) ==========
-TEST(Task11_TrimString, NoSpaces) {
-  char result[100];
-  trimString("hello", result);
-  EXPECT_STREQ(result, "hello");
+// ========== Задание 2: Максимум массива (0.5 балла) ==========
+TEST(Task02_ArrayMax, SingleElement) {
+  int arr[] = {42};
+  EXPECT_EQ(arrayMax(arr, 1), 42);
 }
 
-TEST(Task11_TrimString, OnlyLeadingSpaces) {
-  char result[100];
-  trimString("  hello", result);
-  EXPECT_STREQ(result, "hello");
+TEST(Task02_ArrayMax, AllPositive) {
+  int arr[] = {3, 1, 4, 1, 5, 9, 2, 6};
+  EXPECT_EQ(arrayMax(arr, 8), 9);
 }
 
-TEST(Task11_TrimString, OnlyTrailingSpaces) {
-  char result[100];
-  trimString("hello  ", result);
-  EXPECT_STREQ(result, "hello");
-}
-
-TEST(Task11_TrimString, BothSides) {
-  char result[100];
-  trimString("  hello  ", result);
-  EXPECT_STREQ(result, "hello");
-
-  trimString("   test   ", result);
-  EXPECT_STREQ(result, "test");
-}
-
-TEST(Task11_TrimString, MiddleSpacesPreserved) {
-  char result[100];
-  trimString("  hello world  ", result);
-  EXPECT_STREQ(result, "hello world");
-}
-
-// ========== Задание 12: Переворот слов (1 балл) ==========
-TEST(Task12_ReverseWords, SingleWord) {
-  char result[100];
-  reverseWords("hello", result);
-  EXPECT_STREQ(result, "olleh");
-}
+TEST(Task02_ArrayMax, WithNegatives) {
+  int arr[] = {-5, -1, -3, -2};
+  EXPECT_EQ(arrayMax(arr, 4), -1);
 
-TEST(Task12_ReverseWords, MultipleWords) {
-  char result[100];
-  reverseWords("hello world", result);
-  EXPECT_STREQ(result, "olleh dlrow");
-
-  reverseWords("the quick brown", result);
-  EXPECT_STREQ(result, "eht kciuq nworb");
+  int arr2[] = {-10, 0, 10};
+  EXPECT_EQ(arrayMax(arr2, 3), 10);
 }
 
-TEST(Task12_ReverseWords, WithMultipleSpaces) {
-  char result[100];
-  reverseWords("hello  world", result);
-  EXPECT_STREQ(result, "olleh  dlrow");
+// ========== Задание 3: Минимум массива (0.5 балла) ==========
+TEST(Task03_ArrayMin, SingleElement) {
+  int arr[] = {42};
+  EXPECT_EQ(arrayMin(arr, 1), 42);
 }
 
-TEST(Task12_ReverseWords, LeadingTrailingSpaces) {
-  char result[100];
-  reverseWords("  hello  ", result);
-  EXPECT_STREQ(result, "  olleh  ");
+TEST(Task03_ArrayMin, AllPositive) {
+  int arr[] = {3, 1, 4, 1, 5, 9, 2, 6};
+  EXPECT_EQ(arrayMin(arr, 8), 1);
 }
 
-// ========== Задание 13: Палиндром без учета регистра (1 балл) ==========
-TEST(Task13_IsPalindromeIgnoreCase, EmptyString) {
-  EXPECT_TRUE(isPalindromeIgnoreCase(""));
-}
+TEST(Task03_ArrayMin, WithNegatives) {
+  int arr[] = {-5, -1, -3, -2};
+  EXPECT_EQ(arrayMin(arr, 4), -5);
 
-TEST(Task13_IsPalindromeIgnoreCase, SingleChar) {
-  EXPECT_TRUE(isPalindromeIgnoreCase("a"));
-  EXPECT_TRUE(isPalindromeIgnoreCase("A"));
+  int arr2[] = {-10, 0, 10};
+  EXPECT_EQ(arrayMin(arr2, 3), -10);
 }
 
-TEST(Task13_IsPalindromeIgnoreCase, SimplePalindromes) {
-  EXPECT_TRUE(isPalindromeIgnoreCase("aba"));
-  EXPECT_TRUE(isPalindromeIgnoreCase("Aba"));
-  EXPECT_TRUE(isPalindromeIgnoreCase("ABA"));
-  EXPECT_TRUE(isPalindromeIgnoreCase("racecar"));
-  EXPECT_TRUE(isPalindromeIgnoreCase("RaceCar"));
+// ========== Задание 4: Разворот массива (0.5 балла) ==========
+TEST(Task04_ArrayReverse, SingleElement) {
+  int arr[] = {1};
+  arrayReverse(arr, 1);
+  EXPECT_EQ(arr[0], 1);
 }
 
-TEST(Task13_IsPalindromeIgnoreCase, WithSpaces) {
-  EXPECT_TRUE(isPalindromeIgnoreCase("a b a"));
-  EXPECT_TRUE(isPalindromeIgnoreCase("A man a Plan"));
-  EXPECT_TRUE(isPalindromeIgnoreCase("race car"));
+TEST(Task04_ArrayReverse, EvenLength) {
+  int arr[] = {1, 2, 3, 4};
+  arrayReverse(arr, 4);
+  int expected[] = {4, 3, 2, 1};
+  for (int i = 0; i < 4; i++)
+    EXPECT_EQ(arr[i], expected[i]);
 }
 
-TEST(Task13_IsPalindromeIgnoreCase, NotPalindromes) {
-  EXPECT_FALSE(isPalindromeIgnoreCase("hello"));
-  EXPECT_FALSE(isPalindromeIgnoreCase("world"));
-  EXPECT_FALSE(isPalindromeIgnoreCase("test"));
+TEST(Task04_ArrayReverse, OddLength) {
+  int arr[] = {1, 2, 3, 4, 5};
+  arrayReverse(arr, 5);
+  int expected[] = {5, 4, 3, 2, 1};
+  for (int i = 0; i < 5; i++)
+    EXPECT_EQ(arr[i], expected[i]);
 }
 
-// ========== Задание 14: Подсчет слов (1 балл) ==========
-TEST(Task14_CountWords, EmptyString) {
-  EXPECT_EQ(countWords(""), 0);
-  EXPECT_EQ(countWords("   "), 0);
+// ========== Задание 5: Подсчёт чётных (0.5 балла) ==========
+TEST(Task05_CountEven, NoEven) {
+  int arr[] = {1, 3, 5, 7};
+  EXPECT_EQ(countEven(arr, 4), 0);
 }
 
-TEST(Task14_CountWords, SingleWord) {
-  EXPECT_EQ(countWords("hello"), 1);
-  EXPECT_EQ(countWords("  hello  "), 1);
+TEST(Task05_CountEven, AllEven) {
+  int arr[] = {2, 4, 6, 8};
+  EXPECT_EQ(countEven(arr, 4), 4);
 }
 
-TEST(Task14_CountWords, MultipleWords) {
-  EXPECT_EQ(countWords("hello world"), 2);
-  EXPECT_EQ(countWords("the quick brown fox"), 4);
-  EXPECT_EQ(countWords("  hello   world  "), 2);
-}
+TEST(Task05_CountEven, Mixed) {
+  int arr[] = {1, 2, 3, 4, 6};
+  EXPECT_EQ(countEven(arr, 5), 3);
 
-TEST(Task14_CountWords, WithTabs) {
-  EXPECT_EQ(countWords("hello\tworld"), 2);
-  EXPECT_EQ(countWords("\thello\t\tworld\t"), 2);
+  int arr2[] = {0, -2, 3, -4};
+  EXPECT_EQ(countEven(arr2, 4), 3); // 0, -2, -4
 }
 
-// ========== Задание 15: Анаграммы (1.5 балла) ==========
-TEST(Task15_IsAnagram, EmptyStrings) {
-  EXPECT_TRUE(isAnagram("", ""));
+// ========== Задание 6: Поиск элемента (0.5 балла) ==========
+TEST(Task06_ArrayFind, NotFound) {
+  int arr[] = {1, 2, 3};
+  EXPECT_EQ(arrayFind(arr, 3, 5), -1);
 }
 
-TEST(Task15_IsAnagram, SimpleAnagrams) {
-  EXPECT_TRUE(isAnagram("listen", "silent"));
-  EXPECT_TRUE(isAnagram("evil", "vile"));
-  EXPECT_TRUE(isAnagram("abc", "bca"));
+TEST(Task06_ArrayFind, Found) {
+  int arr[] = {10, 20, 30, 40};
+  EXPECT_EQ(arrayFind(arr, 4, 20), 1);
+  EXPECT_EQ(arrayFind(arr, 4, 10), 0);
+  EXPECT_EQ(arrayFind(arr, 4, 40), 3);
 }
 
-TEST(Task15_IsAnagram, IgnoreCase) {
-  EXPECT_TRUE(isAnagram("Listen", "Silent"));
-  EXPECT_TRUE(isAnagram("LISTEN", "silent"));
-}
+TEST(Task06_ArrayFind, FirstOccurrence) {
+  int arr[] = {5, 3, 5, 3, 5};
+  EXPECT_EQ(arrayFind(arr, 5, 5), 0);
+  EXPECT_EQ(arrayFind(arr, 5, 3), 1);
+}
+
+// ========== Задание 7: Копирование массива (0.5 балла) ==========
+TEST(Task07_ArrayCopy, SingleElement) {
+  int src[] = {42};
+  int dest[1];
+  arrayCopy(dest, src, 1);
+  EXPECT_EQ(dest[0], 42);
+}
+
+TEST(Task07_ArrayCopy, NormalCopy) {
+  int src[] = {1, 2, 3, 4, 5};
+  int dest[5];
+  arrayCopy(dest, src, 5);
+  for (int i = 0; i < 5; i++)
+    EXPECT_EQ(dest[i], src[i]);
+}
+
+TEST(Task07_ArrayCopy, WithNegatives) {
+  int src[] = {-10, 0, 10, -20, 20};
+  int dest[5];
+  arrayCopy(dest, src, 5);
+  for (int i = 0; i < 5; i++)
+    EXPECT_EQ(dest[i], src[i]);
+}
+
+// ========== Задание 8: Сортировка пузырьком (0.5 балла) ==========
+TEST(Task08_BubbleSort, AlreadySorted) {
+  int arr[] = {1, 2, 3, 4, 5};
+  bubbleSort(arr, 5);
+  int expected[] = {1, 2, 3, 4, 5};
+  for (int i = 0; i < 5; i++)
+    EXPECT_EQ(arr[i], expected[i]);
+}
+
+TEST(Task08_BubbleSort, ReverseSorted) {
+  int arr[] = {5, 4, 3, 2, 1};
+  bubbleSort(arr, 5);
+  int expected[] = {1, 2, 3, 4, 5};
+  for (int i = 0; i < 5; i++)
+    EXPECT_EQ(arr[i], expected[i]);
+}
+
+TEST(Task08_BubbleSort, Unsorted) {
+  int arr[] = {3, 1, 4, 1, 5, 9, 2, 6};
+  bubbleSort(arr, 8);
+  int expected[] = {1, 1, 2, 3, 4, 5, 6, 9};
+  for (int i = 0; i < 8; i++)
+    EXPECT_EQ(arr[i], expected[i]);
+}
 
-TEST(Task15_IsAnagram, IgnoreSpaces) {
-  EXPECT_TRUE(isAnagram("a gentleman", "elegant man"));
-  EXPECT_TRUE(isAnagram("conversation", "voices rant on"));
+TEST(Task08_BubbleSort, WithNegatives) {
+  int arr[] = {-3, 5, -1, 0, 2};
+  bubbleSort(arr, 5);
+  int expected[] = {-3, -1, 0, 2, 5};
+  for (int i = 0; i < 5; i++)
+    EXPECT_EQ(arr[i], expected[i]);
 }
 
-TEST(Task15_IsAnagram, NotAnagrams) {
-  EXPECT_FALSE(isAnagram("hello", "world"));
-  EXPECT_FALSE(isAnagram("test", "testing"));
-  EXPECT_FALSE(isAnagram("abc", "abcd"));
+// ========== Задание 9: Циклический сдвиг влево (0.5 балла) ==========
+TEST(Task09_RotateLeft, RotateByZero) {
+  int arr[] = {1, 2, 3, 4, 5};
+  rotateLeft(arr, 5, 0);
+  int expected[] = {1, 2, 3, 4, 5};
+  for (int i = 0; i < 5; i++)
+    EXPECT_EQ(arr[i], expected[i]);
 }
 
-// ========== Задание 16: Общий префикс (3 балла) ==========
-TEST(Task16_LongestCommonPrefix, NullTerminated) {
-  char result[100];
-  longestCommonPrefix(result, NULL);
-  EXPECT_STREQ(result, "");
+TEST(Task09_RotateLeft, RotateByTwo) {
+  int arr[] = {1, 2, 3, 4, 5};
+  rotateLeft(arr, 5, 2);
+  int expected[] = {3, 4, 5, 1, 2};
+  for (int i = 0; i < 5; i++)
+    EXPECT_EQ(arr[i], expected[i]);
 }
 
-TEST(Task16_LongestCommonPrefix, SingleString) {
-  char result[100];
-  longestCommonPrefix(result, "hello", NULL);
-  EXPECT_STREQ(result, "hello");
+TEST(Task09_RotateLeft, RotateBySize) {
+  int arr[] = {1, 2, 3, 4, 5};
+  rotateLeft(arr, 5, 5);
+  int expected[] = {1, 2, 3, 4, 5};
+  for (int i = 0; i < 5; i++)
+    EXPECT_EQ(arr[i], expected[i]);
 }
 
-TEST(Task16_LongestCommonPrefix, CommonPrefix) {
-  char result[100];
-  longestCommonPrefix(result, "flower", "flow", "flight", NULL);
-  EXPECT_STREQ(result, "fl");
-
-  longestCommonPrefix(result, "dog", "racecar", "car", NULL);
-  EXPECT_STREQ(result, "");
-
-  longestCommonPrefix(result, "test", "testing", "tester", NULL);
-  EXPECT_STREQ(result, "test");
+TEST(Task09_RotateLeft, RotateMoreThanSize) {
+  int arr[] = {1, 2, 3, 4, 5};
+  rotateLeft(arr, 5, 7); // 7 % 5 = 2
+  int expected[] = {3, 4, 5, 1, 2};
+  for (int i = 0; i < 5; i++)
+    EXPECT_EQ(arr[i], expected[i]);
 }
 
-TEST(Task16_LongestCommonPrefix, NoCommonPrefix) {
-  char result[100];
-  longestCommonPrefix(result, "abc", "def", "ghi", NULL);
-  EXPECT_STREQ(result, "");
+// ========== Задание 10: Слияние отсортированных (0.5 балла) ==========
+TEST(Task10_MergeSorted, BothNonEmpty) {
+  int a[] = {1, 3, 5};
+  int b[] = {2, 4, 6};
+  int result[6];
+  mergeSorted(a, 3, b, 3, result);
+  int expected[] = {1, 2, 3, 4, 5, 6};
+  for (int i = 0; i < 6; i++)
+    EXPECT_EQ(result[i], expected[i]);
 }
 
-TEST(Task16_LongestCommonPrefix, AllIdentical) {
-  char result[100];
-  longestCommonPrefix(result, "hello", "hello", "hello", NULL);
-  EXPECT_STREQ(result, "hello");
+TEST(Task10_MergeSorted, OneEmpty) {
+  int a[] = {1, 2, 3};
+  int result[3];
+  mergeSorted(a, 3, NULL, 0, result);
+  for (int i = 0; i < 3; i++)
+    EXPECT_EQ(result[i], a[i]);
 }
 
-// ========== Задание 17: RLE сжатие (3 балла) ==========
-TEST(Task17_CompressString, EmptyString) {
-  char result[100];
-  compressString("", result);
-  EXPECT_STREQ(result, "");
+TEST(Task10_MergeSorted, DifferentSizes) {
+  int a[] = {1, 5};
+  int b[] = {2, 3, 4, 6, 7};
+  int result[7];
+  mergeSorted(a, 2, b, 5, result);
+  int expected[] = {1, 2, 3, 4, 5, 6, 7};
+  for (int i = 0; i < 7; i++)
+    EXPECT_EQ(result[i], expected[i]);
 }
-
-TEST(Task17_CompressString, NoRepeats) {
-  char result[100];
-  compressString("abc", result);
-  EXPECT_STREQ(result, "abc");
 
-  compressString("abcdef", result);
-  EXPECT_STREQ(result, "abcdef");
+// ========== Задание 11: Удаление дубликатов (0.5 балла) ==========
+TEST(Task11_RemoveDuplicates, NoDuplicates) {
+  int arr[] = {1, 2, 3, 4, 5};
+  int newSize = removeDuplicates(arr, 5);
+  EXPECT_EQ(newSize, 5);
 }
 
-TEST(Task17_CompressString, AllSame) {
-  char result[100];
-  compressString("aaaa", result);
-  EXPECT_STREQ(result, "a4");
-
-  compressString("bbbbb", result);
-  EXPECT_STREQ(result, "b5");
+TEST(Task11_RemoveDuplicates, AllSame) {
+  int arr[] = {3, 3, 3, 3};
+  int newSize = removeDuplicates(arr, 4);
+  EXPECT_EQ(newSize, 1);
+  EXPECT_EQ(arr[0], 3);
 }
-
-TEST(Task17_CompressString, MixedRepeats) {
-  char result[100];
-  compressString("aaabbcccc", result);
-  EXPECT_STREQ(result, "a3b2c4");
-
-  compressString("aabccc", result);
-  EXPECT_STREQ(result, "a2bc3");
 
-  compressString("wwwwaaadexxxxxx", result);
-  EXPECT_STREQ(result, "w4a3dex6");
+TEST(Task11_RemoveDuplicates, SomeDuplicates) {
+  int arr[] = {1, 1, 2, 3, 3, 4, 5, 5};
+  int newSize = removeDuplicates(arr, 8);
+  EXPECT_EQ(newSize, 5);
+  int expected[] = {1, 2, 3, 4, 5};
+  for (int i = 0; i < 5; i++)
+    EXPECT_EQ(arr[i], expected[i]);
 }
 
-// ========== Задание 18: Калькулятор (4 балла) ==========
-TEST(Task18_CalculateExpression, SimpleAddition) {
-  EXPECT_EQ(calculateExpression("2 + 3"), 5);
-  EXPECT_EQ(calculateExpression("10 + 5"), 15);
+// ========== Задание 12: Второй по величине (1 балл) ==========
+TEST(Task12_SecondLargest, AllSame) {
+  int arr[] = {5, 5, 5};
+  EXPECT_EQ(secondLargest(arr, 3), 5);
 }
 
-TEST(Task18_CalculateExpression, SimpleSubtraction) {
-  EXPECT_EQ(calculateExpression("10 - 3"), 7);
-  EXPECT_EQ(calculateExpression("5 - 2"), 3);
+TEST(Task12_SecondLargest, TwoElements) {
+  int arr[] = {3, 7};
+  EXPECT_EQ(secondLargest(arr, 2), 3);
 }
 
-TEST(Task18_CalculateExpression, SimpleMultiplication) {
-  EXPECT_EQ(calculateExpression("3 * 4"), 12);
-  EXPECT_EQ(calculateExpression("5 * 6"), 30);
+TEST(Task12_SecondLargest, MultipleElements) {
+  int arr[] = {3, 1, 4, 1, 5, 9, 2, 6};
+  EXPECT_EQ(secondLargest(arr, 8), 6);
 }
 
-TEST(Task18_CalculateExpression, SimpleDivision) {
-  EXPECT_EQ(calculateExpression("10 / 2"), 5);
-  EXPECT_EQ(calculateExpression("20 / 4"), 5);
+TEST(Task12_SecondLargest, WithDuplicateMax) {
+  int arr[] = {9, 9, 5, 3};
+  EXPECT_EQ(secondLargest(arr, 4), 5);
 }
 
-TEST(Task18_CalculateExpression, OperatorPrecedence) {
-  EXPECT_EQ(calculateExpression("2 + 3 * 4"), 14);
-  EXPECT_EQ(calculateExpression("10 - 2 * 3"), 4);
-  EXPECT_EQ(calculateExpression("20 / 4 + 3"), 8);
+// ========== Задание 13: Проверка отсортированности (1 балл) ==========
+TEST(Task13_IsSorted, EmptyAndSingle) {
+  int arr[] = {1};
+  EXPECT_TRUE(isSorted(arr, 1));
 }
 
-TEST(Task18_CalculateExpression, WithParentheses) {
-  EXPECT_EQ(calculateExpression("(2 + 3) * 4"), 20);
-  EXPECT_EQ(calculateExpression("(10 - 2) * 3"), 24);
-  EXPECT_EQ(calculateExpression("20 / (4 + 1)"), 4);
-}
+TEST(Task13_IsSorted, Sorted) {
+  int arr[] = {1, 2, 3, 4, 5};
+  EXPECT_TRUE(isSorted(arr, 5));
 
-TEST(Task18_CalculateExpression, ComplexExpressions) {
-  EXPECT_EQ(calculateExpression("2 + 3 * 4 - 5"), 9);
-  EXPECT_EQ(calculateExpression("(2 + 3) * (4 - 2)"), 10);
-  EXPECT_EQ(calculateExpression("10 / 2 + 3 * 4"), 17);
+  int arr2[] = {1, 1, 2, 3, 3};
+  EXPECT_TRUE(isSorted(arr2, 5));
 }
 
-// ========== Задание 19: Валидация email (5 баллов) ==========
-TEST(Task19_ValidateEmail, ValidEmails) {
-  EXPECT_TRUE(validateEmail("user@example.com"));
-  EXPECT_TRUE(validateEmail("test@test.org"));
-  EXPECT_TRUE(validateEmail("name.surname@domain.com"));
-  EXPECT_TRUE(validateEmail("user_name@example.co.uk"));
-  EXPECT_TRUE(validateEmail("user-name@test-domain.com"));
-}
+TEST(Task13_IsSorted, NotSorted) {
+  int arr[] = {1, 3, 2, 4, 5};
+  EXPECT_FALSE(isSorted(arr, 5));
 
-TEST(Task19_ValidateEmail, InvalidEmails_NoAt) {
-  EXPECT_FALSE(validateEmail("invalid.email.com"));
-  EXPECT_FALSE(validateEmail("nodomain"));
+  int arr2[] = {5, 4, 3, 2, 1};
+  EXPECT_FALSE(isSorted(arr2, 5));
 }
 
-TEST(Task19_ValidateEmail, InvalidEmails_MultipleAt) {
-  EXPECT_FALSE(validateEmail("user@@example.com"));
-  EXPECT_FALSE(validateEmail("user@test@example.com"));
+// ========== Задание 14: Частота элемента (1 балл) ==========
+TEST(Task14_MaxFrequency, SingleElement) {
+  int arr[] = {42};
+  EXPECT_EQ(maxFrequency(arr, 1), 1);
 }
 
-TEST(Task19_ValidateEmail, InvalidEmails_NoDomain) {
-  EXPECT_FALSE(validateEmail("user@"));
-  EXPECT_FALSE(validateEmail("@example.com"));
+TEST(Task14_MaxFrequency, AllSame) {
+  int arr[] = {7, 7, 7, 7};
+  EXPECT_EQ(maxFrequency(arr, 4), 4);
 }
 
-TEST(Task19_ValidateEmail, InvalidEmails_NoDot) {
-  EXPECT_FALSE(validateEmail("user@examplecom"));
-  EXPECT_FALSE(validateEmail("user@example"));
-}
+TEST(Task14_MaxFrequency, MixedFrequencies) {
+  int arr[] = {1, 3, 2, 3, 3, 1};
+  EXPECT_EQ(maxFrequency(arr, 6), 3); // 3 appears 3 times
 
-TEST(Task19_ValidateEmail, InvalidEmails_ShortDomain) {
-  EXPECT_FALSE(validateEmail("user@example.c"));
-  EXPECT_FALSE(validateEmail("user@test.a"));
+  int arr2[] = {1, 2, 3, 4, 5};
+  EXPECT_EQ(maxFrequency(arr2, 5), 1); // all appear once
 }
 
-// ========== Задание 20: Самая длинная палиндромная подстрока (5 баллов) ==========
-TEST(Task20_LongestPalindromicSubstring, SingleChar) {
-  EXPECT_EQ(longestPalindromicSubstring("a"), 1);
-  EXPECT_EQ(longestPalindromicSubstring("b"), 1);
+// ========== Задание 15: Two Sum (1.5 балла) ==========
+TEST(Task15_TwoSum, Found) {
+  int arr[] = {2, 7, 11, 15};
+  int *result = twoSum(arr, 4, 9);
+  ASSERT_NE(result, nullptr);
+  EXPECT_EQ(arr[result[0]] + arr[result[1]], 9);
+  free(result);
 }
 
-TEST(Task20_LongestPalindromicSubstring, EntirePalindrome) {
-  EXPECT_EQ(longestPalindromicSubstring("aba"), 3);
-  EXPECT_EQ(longestPalindromicSubstring("racecar"), 7);
+TEST(Task15_TwoSum, NotFound) {
+  int arr[] = {1, 2, 3};
+  int *result = twoSum(arr, 3, 100);
+  EXPECT_EQ(result, nullptr);
 }
 
-TEST(Task20_LongestPalindromicSubstring, MiddlePalindrome) {
-  EXPECT_EQ(longestPalindromicSubstring("babad"), 3); // "bab" or "aba"
-  EXPECT_EQ(longestPalindromicSubstring("cbbd"), 2);  // "bb"
+TEST(Task15_TwoSum, MultipleValid) {
+  int arr[] = {3, 2, 4};
+  int *result = twoSum(arr, 3, 6);
+  ASSERT_NE(result, nullptr);
+  EXPECT_EQ(arr[result[0]] + arr[result[1]], 6);
+  EXPECT_NE(result[0], result[1]);
+  free(result);
 }
 
-TEST(Task20_LongestPalindromicSubstring, NoPalindrome) {
-  EXPECT_EQ(longestPalindromicSubstring("abc"), 1);
-  EXPECT_EQ(longestPalindromicSubstring("abcd"), 1);
+TEST(Task15_TwoSum, WithNegatives) {
+  int arr[] = {-1, 5, 3, -4};
+  int *result = twoSum(arr, 4, -5);
+  ASSERT_NE(result, nullptr);
+  EXPECT_EQ(arr[result[0]] + arr[result[1]], -5);
+  free(result);
 }
 
-TEST(Task20_LongestPalindromicSubstring, ComplexCases) {
-  EXPECT_EQ(longestPalindromicSubstring("bananas"), 5); // "anana"
-  EXPECT_EQ(longestPalindromicSubstring("forgeeksskeegfor"), 10); // "geeksskeeg"
-  EXPECT_EQ(longestPalindromicSubstring("abcdefggfedcba"), 14); // entire
+// ========== Задание 16: Фильтрация положительных (3 балла) ==========
+TEST(Task16_FilterPositive, AllPositive) {
+  int arr[] = {1, 2, 3};
+  int resultSize;
+  int *result = filterPositive(arr, 3, &resultSize);
+  ASSERT_NE(result, nullptr);
+  EXPECT_EQ(resultSize, 3);
+  EXPECT_EQ(result[0], 1);
+  EXPECT_EQ(result[1], 2);
+  EXPECT_EQ(result[2], 3);
+  free(result);
+}
+
+TEST(Task16_FilterPositive, NoPositive) {
+  int arr[] = {-1, -2, 0, -3};
+  int resultSize;
+  int *result = filterPositive(arr, 4, &resultSize);
+  EXPECT_EQ(result, nullptr);
+  EXPECT_EQ(resultSize, 0);
+}
+
+TEST(Task16_FilterPositive, Mixed) {
+  int arr[] = {-1, 2, -3, 4, 5};
+  int resultSize;
+  int *result = filterPositive(arr, 5, &resultSize);
+  ASSERT_NE(result, nullptr);
+  EXPECT_EQ(resultSize, 3);
+  EXPECT_EQ(result[0], 2);
+  EXPECT_EQ(result[1], 4);
+  EXPECT_EQ(result[2], 5);
+  free(result);
+}
+
+TEST(Task16_FilterPositive, EmptyArray) {
+  int resultSize;
+  int *result = filterPositive(NULL, 0, &resultSize);
+  EXPECT_EQ(result, nullptr);
+  EXPECT_EQ(resultSize, 0);
+}
+
+// ========== Задание 17: Транспонирование матрицы (3 балла) ==========
+TEST(Task17_MatrixTranspose, Square2x2) {
+  int matrix[] = {1, 2, 3, 4};
+  int *result = matrixTranspose(matrix, 2, 2);
+  ASSERT_NE(result, nullptr);
+  // [1,2; 3,4] -> [1,3; 2,4]
+  EXPECT_EQ(result[0], 1);
+  EXPECT_EQ(result[1], 3);
+  EXPECT_EQ(result[2], 2);
+  EXPECT_EQ(result[3], 4);
+  free(result);
+}
+
+TEST(Task17_MatrixTranspose, Rectangular2x3) {
+  int matrix[] = {1, 2, 3, 4, 5, 6};
+  int *result = matrixTranspose(matrix, 2, 3);
+  ASSERT_NE(result, nullptr);
+  // [1,2,3; 4,5,6] -> [1,4; 2,5; 3,6]
+  int expected[] = {1, 4, 2, 5, 3, 6};
+  for (int i = 0; i < 6; i++)
+    EXPECT_EQ(result[i], expected[i]);
+  free(result);
+}
+
+TEST(Task17_MatrixTranspose, SingleRow) {
+  int matrix[] = {1, 2, 3};
+  int *result = matrixTranspose(matrix, 1, 3);
+  ASSERT_NE(result, nullptr);
+  // [1,2,3] -> [1; 2; 3]
+  EXPECT_EQ(result[0], 1);
+  EXPECT_EQ(result[1], 2);
+  EXPECT_EQ(result[2], 3);
+  free(result);
+}
+
+TEST(Task17_MatrixTranspose, SingleColumn) {
+  int matrix[] = {1, 2, 3};
+  int *result = matrixTranspose(matrix, 3, 1);
+  ASSERT_NE(result, nullptr);
+  // [1; 2; 3] -> [1,2,3]
+  EXPECT_EQ(result[0], 1);
+  EXPECT_EQ(result[1], 2);
+  EXPECT_EQ(result[2], 3);
+  free(result);
+}
+
+// ========== Задание 18: Спиральный обход матрицы (4 балла) ==========
+TEST(Task18_SpiralOrder, Matrix3x3) {
+  int matrix[] = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+  int resultSize;
+  int *result = spiralOrder(matrix, 3, 3, &resultSize);
+  ASSERT_NE(result, nullptr);
+  EXPECT_EQ(resultSize, 9);
+  int expected[] = {1, 2, 3, 6, 9, 8, 7, 4, 5};
+  for (int i = 0; i < 9; i++)
+    EXPECT_EQ(result[i], expected[i]);
+  free(result);
+}
+
+TEST(Task18_SpiralOrder, Matrix2x3) {
+  int matrix[] = {1, 2, 3, 4, 5, 6};
+  int resultSize;
+  int *result = spiralOrder(matrix, 2, 3, &resultSize);
+  ASSERT_NE(result, nullptr);
+  EXPECT_EQ(resultSize, 6);
+  int expected[] = {1, 2, 3, 6, 5, 4};
+  for (int i = 0; i < 6; i++)
+    EXPECT_EQ(result[i], expected[i]);
+  free(result);
+}
+
+TEST(Task18_SpiralOrder, SingleRow) {
+  int matrix[] = {1, 2, 3, 4};
+  int resultSize;
+  int *result = spiralOrder(matrix, 1, 4, &resultSize);
+  ASSERT_NE(result, nullptr);
+  EXPECT_EQ(resultSize, 4);
+  int expected[] = {1, 2, 3, 4};
+  for (int i = 0; i < 4; i++)
+    EXPECT_EQ(result[i], expected[i]);
+  free(result);
+}
+
+TEST(Task18_SpiralOrder, Matrix4x4) {
+  int matrix[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16};
+  int resultSize;
+  int *result = spiralOrder(matrix, 4, 4, &resultSize);
+  ASSERT_NE(result, nullptr);
+  EXPECT_EQ(resultSize, 16);
+  int expected[] = {1, 2, 3, 4, 8, 12, 16, 15, 14, 13, 9, 5, 6, 7, 11, 10};
+  for (int i = 0; i < 16; i++)
+    EXPECT_EQ(result[i], expected[i]);
+  free(result);
+}
+
+// ========== Задание 19: Разбиение строки (5 баллов) ==========
+TEST(Task19_StringSplit, SimpleComma) {
+  int count;
+  char **result = stringSplit("hello,world,test", ',', &count);
+  ASSERT_NE(result, nullptr);
+  EXPECT_EQ(count, 3);
+  EXPECT_STREQ(result[0], "hello");
+  EXPECT_STREQ(result[1], "world");
+  EXPECT_STREQ(result[2], "test");
+  for (int i = 0; i < count; i++)
+    free(result[i]);
+  free(result);
+}
+
+TEST(Task19_StringSplit, SinglePart) {
+  int count;
+  char **result = stringSplit("hello", ',', &count);
+  ASSERT_NE(result, nullptr);
+  EXPECT_EQ(count, 1);
+  EXPECT_STREQ(result[0], "hello");
+  free(result[0]);
+  free(result);
+}
+
+TEST(Task19_StringSplit, EmptyParts) {
+  int count;
+  char **result = stringSplit("a,,b", ',', &count);
+  ASSERT_NE(result, nullptr);
+  EXPECT_EQ(count, 3);
+  EXPECT_STREQ(result[0], "a");
+  EXPECT_STREQ(result[1], "");
+  EXPECT_STREQ(result[2], "b");
+  for (int i = 0; i < count; i++)
+    free(result[i]);
+  free(result);
+}
+
+TEST(Task19_StringSplit, DifferentDelimiter) {
+  int count;
+  char **result = stringSplit("one:two:three:four", ':', &count);
+  ASSERT_NE(result, nullptr);
+  EXPECT_EQ(count, 4);
+  EXPECT_STREQ(result[0], "one");
+  EXPECT_STREQ(result[1], "two");
+  EXPECT_STREQ(result[2], "three");
+  EXPECT_STREQ(result[3], "four");
+  for (int i = 0; i < count; i++)
+    free(result[i]);
+  free(result);
+}
+
+TEST(Task19_StringSplit, EmptyString) {
+  int count;
+  char **result = stringSplit("", ',', &count);
+  ASSERT_NE(result, nullptr);
+  EXPECT_EQ(count, 1);
+  EXPECT_STREQ(result[0], "");
+  free(result[0]);
+  free(result);
+}
+
+// ========== Задание 20: Умножение полиномов (5 баллов) ==========
+TEST(Task20_PolynomialMultiply, SimpleLinear) {
+  int a[] = {1, 2}; // 1 + 2x
+  int b[] = {3, 4}; // 3 + 4x
+  int resultSize;
+  int *result = polynomialMultiply(a, 2, b, 2, &resultSize);
+  ASSERT_NE(result, nullptr);
+  EXPECT_EQ(resultSize, 3);
+  // (1+2x)(3+4x) = 3 + 10x + 8x^2
+  EXPECT_EQ(result[0], 3);
+  EXPECT_EQ(result[1], 10);
+  EXPECT_EQ(result[2], 8);
+  free(result);
+}
+
+TEST(Task20_PolynomialMultiply, ConstantTimesPolynomial) {
+  int a[] = {5};       // 5
+  int b[] = {1, 2, 3}; // 1 + 2x + 3x^2
+  int resultSize;
+  int *result = polynomialMultiply(a, 1, b, 3, &resultSize);
+  ASSERT_NE(result, nullptr);
+  EXPECT_EQ(resultSize, 3);
+  EXPECT_EQ(result[0], 5);
+  EXPECT_EQ(result[1], 10);
+  EXPECT_EQ(result[2], 15);
+  free(result);
+}
+
+TEST(Task20_PolynomialMultiply, QuadraticTimesLinear) {
+  int a[] = {1, 0, 1}; // 1 + x^2
+  int b[] = {1, 1};    // 1 + x
+  int resultSize;
+  int *result = polynomialMultiply(a, 3, b, 2, &resultSize);
+  ASSERT_NE(result, nullptr);
+  EXPECT_EQ(resultSize, 4);
+  // (1 + x^2)(1 + x) = 1 + x + x^2 + x^3
+  EXPECT_EQ(result[0], 1);
+  EXPECT_EQ(result[1], 1);
+  EXPECT_EQ(result[2], 1);
+  EXPECT_EQ(result[3], 1);
+  free(result);
+}
+
+TEST(Task20_PolynomialMultiply, WithNegativeCoeffs) {
+  int a[] = {1, -1}; // 1 - x
+  int b[] = {1, 1};  // 1 + x
+  int resultSize;
+  int *result = polynomialMultiply(a, 2, b, 2, &resultSize);
+  ASSERT_NE(result, nullptr);
+  EXPECT_EQ(resultSize, 3);
+  // (1-x)(1+x) = 1 - x^2
+  EXPECT_EQ(result[0], 1);
+  EXPECT_EQ(result[1], 0);
+  EXPECT_EQ(result[2], -1);
+  free(result);
 }

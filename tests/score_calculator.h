@@ -34,39 +34,42 @@ private:
 
   void initializeTasks() {
     // Простые задания (15 заданий)
-    tasks_["Task01_StringLength"] = TaskInfo("Задание 1: Длина строки", 0.5);
-    tasks_["Task02_StringCopy"] =
-        TaskInfo("Задание 2: Копирование строки", 0.5);
-    tasks_["Task03_StringConcat"] =
-        TaskInfo("Задание 3: Конкатенация строк", 0.5);
-    tasks_["Task04_StringCompare"] =
-        TaskInfo("Задание 4: Сравнение строк", 0.5);
-    tasks_["Task05_CountChar"] = TaskInfo("Задание 5: Подсчет символа", 0.5);
-    tasks_["Task06_CountVowels"] = TaskInfo("Задание 6: Подсчет гласных", 0.5);
-    tasks_["Task07_RemoveSpaces"] =
-        TaskInfo("Задание 7: Удаление пробелов", 0.5);
-    tasks_["Task08_FirstWordLength"] =
-        TaskInfo("Задание 8: Длина первого слова", 0.5);
-    tasks_["Task09_FindSubstring"] =
-        TaskInfo("Задание 9: Поиск подстроки", 0.5);
-    tasks_["Task10_ReplaceChar"] = TaskInfo("Задание 10: Замена символа", 0.5);
-    tasks_["Task11_TrimString"] = TaskInfo("Задание 11: Trim строки", 0.5);
-    tasks_["Task12_ReverseWords"] = TaskInfo("Задание 12: Переворот слов", 1.0);
-    tasks_["Task13_IsPalindromeIgnoreCase"] =
-        TaskInfo("Задание 13: Палиндром (игнор регистра)", 1.0);
-    tasks_["Task14_CountWords"] = TaskInfo("Задание 14: Подсчет слов", 1.0);
-    tasks_["Task15_IsAnagram"] = TaskInfo("Задание 15: Проверка анаграмм", 1.5);
+    tasks_["Task01_ArraySum"] = TaskInfo("Задание 1: Сумма массива", 0.5);
+    tasks_["Task02_ArrayMax"] = TaskInfo("Задание 2: Максимум массива", 0.5);
+    tasks_["Task03_ArrayMin"] = TaskInfo("Задание 3: Минимум массива", 0.5);
+    tasks_["Task04_ArrayReverse"] =
+        TaskInfo("Задание 4: Разворот массива", 0.5);
+    tasks_["Task05_CountEven"] = TaskInfo("Задание 5: Подсчёт чётных", 0.5);
+    tasks_["Task06_ArrayFind"] = TaskInfo("Задание 6: Поиск элемента", 0.5);
+    tasks_["Task07_ArrayCopy"] =
+        TaskInfo("Задание 7: Копирование массива", 0.5);
+    tasks_["Task08_BubbleSort"] =
+        TaskInfo("Задание 8: Сортировка пузырьком", 0.5);
+    tasks_["Task09_RotateLeft"] =
+        TaskInfo("Задание 9: Циклический сдвиг влево", 0.5);
+    tasks_["Task10_MergeSorted"] =
+        TaskInfo("Задание 10: Слияние массивов", 0.5);
+    tasks_["Task11_RemoveDuplicates"] =
+        TaskInfo("Задание 11: Удаление дубликатов", 0.5);
+    tasks_["Task12_SecondLargest"] =
+        TaskInfo("Задание 12: Второй максимум", 1.0);
+    tasks_["Task13_IsSorted"] =
+        TaskInfo("Задание 13: Проверка отсортированности", 1.0);
+    tasks_["Task14_MaxFrequency"] =
+        TaskInfo("Задание 14: Частота элемента", 1.0);
+    tasks_["Task15_TwoSum"] = TaskInfo("Задание 15: Two Sum (malloc)", 1.5);
 
     // Сложные задания (5 заданий)
-    tasks_["Task16_LongestCommonPrefix"] =
-        TaskInfo("Задание 16: Общий префикс", 3.0);
-    tasks_["Task17_CompressString"] = TaskInfo("Задание 17: RLE сжатие", 3.0);
-    tasks_["Task18_CalculateExpression"] =
-        TaskInfo("Задание 18: Калькулятор", 4.0);
-    tasks_["Task19_ValidateEmail"] =
-        TaskInfo("Задание 19: Валидация email", 5.0);
-    tasks_["Task20_LongestPalindromicSubstring"] =
-        TaskInfo("Задание 20: Самая длинная палиндромная подстрока", 5.0);
+    tasks_["Task16_FilterPositive"] =
+        TaskInfo("Задание 16: Фильтрация (malloc)", 3.0);
+    tasks_["Task17_MatrixTranspose"] =
+        TaskInfo("Задание 17: Транспонирование матрицы (malloc)", 3.0);
+    tasks_["Task18_SpiralOrder"] =
+        TaskInfo("Задание 18: Спиральный обход (malloc)", 4.0);
+    tasks_["Task19_StringSplit"] =
+        TaskInfo("Задание 19: Разбиение строки (malloc)", 5.0);
+    tasks_["Task20_PolynomialMultiply"] =
+        TaskInfo("Задание 20: Умножение полиномов (malloc)", 5.0);
   }
 
   std::string getTaskPrefix(const std::string &testSuiteName) const {
